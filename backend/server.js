@@ -16,6 +16,10 @@ mongoose.connect(process.env.MONGO_URI, {
 // Routes
 const userRoutes = require('./routes/userRoutes');
 app.use('/api/users', userRoutes);
+const adminRoutes = require('./routes/adminRoutes');
+app.use('/api/admin', adminRoutes);
+const customerRoutes = require('./routes/customerRoutes');
+app.use('/api/customer', customerRoutes);
 
 // Start Server
 const PORT = process.env.PORT || 5000;
