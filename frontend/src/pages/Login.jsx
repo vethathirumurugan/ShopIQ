@@ -15,8 +15,8 @@ const Login = () => {
     e.preventDefault();
     try {
       const res = await axios.post('http://localhost:5000/api/users/login', formData);
+       localStorage.setItem("customerEmail", res.data.user.email);
       alert(res.data.message);
-      // Example: localStorage.setItem('userToken', res.data.token);
       navigate('/products'); // Or to /dashboard
     } catch (err) {
       alert(err.response?.data?.error || 'Login failed');

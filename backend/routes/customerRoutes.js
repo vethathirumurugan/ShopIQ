@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Product = require('../models/Product');
+const User = require('../models/User');
 
 // GET all products with search, filter, sort, and pagination
 router.get('/products', async (req, res) => {
@@ -38,6 +39,22 @@ router.get('/products/:id', async (req, res) => {
     res.json(product);
   } catch (err) {
     res.status(500).json({ error: err.message });
+  }
+});
+
+router.get('/profile', async (req, res) => {
+  const { email } = req.query;
+  console.log(email);
+  try {
+    const user = await User.findOne({ email });
+    if (!user) return res.status(404).json({ error: "Customer not found" });
+
+    // Exclude password from the response
+    const { password, ...userWithoutPassword } = user.toObject();
+
+    res.json(userWithoutPassword);
+  } catch (err) {
+    res.status(500).json({ error: "Server error" });
   }
 });
 

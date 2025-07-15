@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import './AdminDashboard.css';
 
 const AdminDashboard = () => {
   const [products, setProducts] = useState([]);
@@ -26,7 +27,7 @@ const AdminDashboard = () => {
     const reader = new FileReader();
 
     reader.onloadend = () => {
-      setFormData({ ...formData, image: reader.result }); // base64 string
+      setFormData({ ...formData, image: reader.result });
     };
 
     if (file) {
@@ -40,8 +41,9 @@ const AdminDashboard = () => {
       await axios.post('http://localhost:5000/api/admin/products', formData);
       fetchProducts();
       alert("Product added!");
+      setFormData("");
     } catch (err) {
-      alert("Error adding product: " + err.response?.data?.error || err.message);
+      alert("Error adding product: " + (err.response?.data?.error || err.message));
     }
   };
 
@@ -56,66 +58,73 @@ const AdminDashboard = () => {
   };
 
   return (
-    <div style={{ padding: '20px' }}>
-      <h2>Admin Dashboard - Manage Products</h2>
+    <div className="admin-container">
+      <h2 className="admin-title">Admin Dashboard</h2>
+<form onSubmit={addProduct} className="admin-form">
+  <div className="form-group">
+    <label htmlFor="productId">Product ID</label>
+    <input name="productId" id="productId" onChange={handleChange} required />
+  </div>
+  <div className="form-group">
+    <label htmlFor="name">Name</label>
+    <input name="name" id="name" onChange={handleChange} required />
+  </div>
+  <div className="form-group">
+    <label htmlFor="quantity">Quantity</label>
+    <input name="quantity" id="quantity" onChange={handleChange} required />
+  </div>
+  <div className="form-group">
+    <label htmlFor="pricePerUnit">Price</label>
+    <input name="pricePerUnit" id="pricePerUnit" onChange={handleChange} required />
+  </div>
+  <div className="form-group">
+    <label htmlFor="description">Description</label>
+    <input name="description" id="description" onChange={handleChange} required />
+  </div>
+  <div className="form-group">
+    <label htmlFor="category">Category</label>
+    <input name="category" id="category" onChange={handleChange} required />
+  </div>
+  <div className="form-group">
+    <label htmlFor="subcategory">Subcategory</label>
+    <input name="subcategory" id="subcategory" onChange={handleChange} required />
+  </div>
+  <div className="form-group">
+    <label htmlFor="image">Image</label>
+    <input type="file" name="image" id="image" accept="image/*" onChange={handleImageUpload} required />
+  </div>
 
-      <form onSubmit={addProduct} style={{ marginBottom: '20px' }}>
-        {["productId", "name", "quantity", "pricePerUnit", "description", "category", "subcategory"].map((field) => (
-          <input
-            key={field}
-            name={field}
-            placeholder={field}
-            onChange={handleChange}
-            required
-            style={{ margin: '5px', padding: '8px' }}
-          />
-        ))}
+  <button type="submit" className="submit-btn">Add Product</button>
+</form>
 
-        {/* Correct image input */}
-        <input
-          type="file"
-          name="image"
-          accept="image/*"
-          onChange={handleImageUpload}
-          required
-          style={{ margin: '5px', padding: '8px' }}
-        />
-
-        <button type="submit">Add Product</button>
-      </form>
-
-      <table border="1" cellPadding="10">
-        <thead>
-          <tr>
-            <th>Image</th>
-            <th>Product Name</th>
-            <th>Qty</th>
-            <th>Price</th>
-            <th>Category</th>
-            <th>Subcategory</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {products.map(p => (
-            <tr key={p._id}>
-              <td>
-                {p.image && (
-                  <img src={p.image} alt={p.name} width="60" height="60" />
-                )}
-              </td>
-              <td>{p.name}</td>
-              <td>{p.quantity}</td>
-              <td>{p.pricePerUnit}</td>
-              <td>{p.category}</td>
-              <td>{p.subcategory}</td>
-              <td>
-                <button onClick={() => deleteProduct(p._id)}>Delete</button>
-              </td>
+      <div className="product-table-wrapper">
+        <table className="product-table">
+          <thead>
+            <tr>
+              <th>Image</th>
+              <th>Name</th>
+              <th>Qty</th>
+              <th>Price</th>
+              <th>Category</th>
+              <th>Subcategory</th>
+              <th>Action</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {products.map(p => (
+              <tr key={p._id}>
+                <td><img src={p.image} alt={p.name} className="thumbnail" /></td>
+                <td>{p.name}</td>
+                <td>{p.quantity}</td>
+                <td>₹{p.pricePerUnit}</td>
+                <td>{p.category}</td>
+                <td>{p.subcategory}</td>
+                <td><button className="delete-btn" onClick={() => deleteProduct(p._id)}>Delete</button></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
