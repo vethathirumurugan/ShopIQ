@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import './Login.css';
+import './AdminLogin.css';
 
-const Login = () => {
+const AdminLogin = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
   const navigate = useNavigate();
 
@@ -14,10 +14,10 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:5000/api/users/login', formData);
+      const res = await axios.post('http://localhost:5000/api/admin-login/login', formData);
       alert(res.data.message);
       // Example: localStorage.setItem('userToken', res.data.token);
-      navigate('/products'); // Or to /dashboard
+      navigate('/admin'); // Or to /dashboard
     } catch (err) {
       alert(err.response?.data?.error || 'Login failed');
     }
@@ -25,7 +25,7 @@ const Login = () => {
 
   return (
     <div className="login-container">
-      <h2 className="login-heading">User Login</h2>
+      <h2 className="login-heading">Admin Login</h2>
       <form onSubmit={handleSubmit} className="login-form">
         <input
           name="email"
@@ -49,4 +49,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default AdminLogin;

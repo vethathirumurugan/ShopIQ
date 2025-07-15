@@ -20,6 +20,8 @@ const adminRoutes = require('./routes/adminRoutes');
 app.use('/api/admin', adminRoutes);
 const customerRoutes = require('./routes/customerRoutes');
 app.use('/api/customer', customerRoutes);
+const loginRoutes = require('./routes/loginRoutes');
+app.use('/api/admin-login', loginRoutes);
 
 // Start Server
 const PORT = process.env.PORT || 5000;
