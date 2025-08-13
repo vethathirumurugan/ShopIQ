@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const Product = require('../models/Product');
 const User = require('../models/User');
+const Cart = require('../models/Cart');
+const Order = require('../models/Order');
 
 // GET all products with search, filter, sort, and pagination
 router.get('/products', async (req, res) => {
@@ -44,7 +46,6 @@ router.get('/products/:id', async (req, res) => {
 
 router.get('/profile', async (req, res) => {
   const { email } = req.query;
-  console.log(email);
   try {
     const user = await User.findOne({ email });
     if (!user) return res.status(404).json({ error: "Customer not found" });
@@ -57,5 +58,60 @@ router.get('/profile', async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 });
+router.post('/cart', async (req, res) => {
+  try {
+    const { productId, quantity, email } = req.body;
 
+    if (!productId || !quantity || !email) {
+      return res.status(400).json({ error: "All fields required" });
+    }
+
+    const existing = await Cart.findOne({ email, productId });
+    if (existing) {
+      existing.quantity += quantity;
+      await existing.save();
+    } else {
+      await Cart.create({ email, productId, quantity });
+    }
+
+    res.json({ message: "Item added to cart" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to add to cart" });
+  }
+});
+// POST /api/customer/place-order
+router.post('/place-order', async (req, res) => {
+  try {
+    const { productId, quantity, email } = req.body;
+
+    if (!productId || !quantity || !email) {
+      return res.status(400).json({ error: "Missing required fields" });
+    }
+
+    const product = await Product.findById(productId);
+    if (!product) {
+      return res.status(404).json({ error: "Product not found" });
+    }
+
+    if (quantity > product.quantity) {
+      return res.status(400).json({ error: "Not enough stock available" });
+    }
+
+    // Create order
+    await Order.create({ email, productId, quantity });
+
+    // Reduce product stock
+    product.quantity -= quantity;
+    await product.save();
+
+    // Optional: remove from cart
+    await Cart.deleteOne({ email, productId });
+
+    res.json({ message: "Order placed successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to place order" });
+  }
+});
 module.exports = router;
