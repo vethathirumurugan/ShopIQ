@@ -72,5 +72,21 @@ router.get('/products', async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+router.patch('/products/:id/quantity', async (req, res) => {
+  try {
+    const { addQty } = req.body;
+    if (!addQty || isNaN(addQty) || Number(addQty) <= 0) {
+      return res.status(400).json({ error: 'Invalid quantity' });
+    }
+    const product = await Product.findById(req.params.id);
+    if (!product) return res.status(404).json({ error: 'Product not found' });
+    product.quantity = Number(product.quantity) + Number(addQty);
+    await product.save();
+    res.json({ message: 'Quantity updated', product });
+  } catch (err) {
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
 
 module.exports = router;

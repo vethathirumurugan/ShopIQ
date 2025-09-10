@@ -1,13 +1,75 @@
+/* Animated e-commerce background */
+body {
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: linear-gradient(120deg, #e3f0ff 0%, #f5faff 100%);
+  position: relative;
+  overflow-x: hidden;
+}
+
+.product-detail-bg {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.bg-shape {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.13;
+  animation: float 10s infinite ease-in-out alternate;
+}
+.bg-shape1 {
+  width: 180px; height: 180px;
+  background: #1976f2;
+  top: 8%; left: 10%;
+  animation-delay: 0s;
+}
+.bg-shape2 {
+  width: 120px; height: 120px;
+  background: #ffc107;
+  top: 70%; left: 80%;
+  animation-delay: 2s;
+}
+.bg-shape3 {
+  width: 140px; height: 140px;
+  background: #00c853;
+  top: 40%; left: 75%;
+  animation-delay: 1s;
+}
+.bg-shape4 {
+  width: 90px; height: 90px;
+  background: #e91e63;
+  top: 80%; left: 20%;
+  animation-delay: 3s;
+}
+@keyframes float {
+  0% { transform: translateY(0) scale(1); }
+  100% { transform: translateY(-30px) scale(1.1); }
+}
+
+/* Product detail card styling */
 .product-detail-container {
   display: flex;
   flex-wrap: wrap;
   max-width: 1200px;
-  margin: 40px auto;
-  padding: 20px;
-  background: #fff;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-  border-radius: 12px;
+  margin: 60px auto;
+  padding: 30px;
+  background: rgba(255,255,255,0.98);
+  box-shadow: 0 8px 32px rgba(25, 118, 242, 0.12);
+  border-radius: 18px;
   font-family: 'Segoe UI', sans-serif;
+  position: relative;
+  z-index: 1;
+  animation: fadeInUp 1s;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .image-section {
@@ -22,9 +84,13 @@
 .product-image {
   max-width: 100%;
   max-height: 400px;
-  border-radius: 8px;
+  border-radius: 12px;
   object-fit: contain;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  box-shadow: 0 4px 16px rgba(25, 118, 242, 0.18);
+  transition: transform 0.3s;
+}
+.product-image:hover {
+  transform: scale(1.05) rotate(-2deg);
 }
 
 .info-section {
@@ -34,64 +100,107 @@
 }
 
 .info-section h2 {
-  font-size: 28px;
+  font-size: 2rem;
   margin-bottom: 15px;
+  color: #1976f2;
+  letter-spacing: 1px;
+  animation: fadeInDown 1s;
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-30px);}
+  to { opacity: 1; transform: translateY(0);}
 }
 
 .product-description {
-  font-size: 16px;
+  font-size: 1.1rem;
   color: #444;
   margin-bottom: 10px;
 }
 
 .product-price {
-  font-size: 24px;
+  font-size: 1.5rem;
   color: #e91e63;
   font-weight: bold;
   margin: 10px 0;
+  letter-spacing: 1px;
 }
 
 .product-category,
 .product-quantity {
-  font-size: 15px;
+  font-size: 1rem;
   margin-bottom: 8px;
+  color: #1976f2;
 }
 
 .action-buttons {
-  margin-top: 20px;
+  margin-top: 24px;
+  display: flex;
+  gap: 16px;
 }
 
 .add-to-cart, .place-order {
-  padding: 12px 20px;
-  margin-right: 10px;
+  padding: 12px 28px;
   border: none;
-  border-radius: 6px;
-  font-size: 16px;
+  border-radius: 8px;
+  font-size: 1.1rem;
   font-weight: bold;
   cursor: pointer;
-  transition: 0.2s ease;
+  transition: 0.2s ease, box-shadow 0.3s;
+  box-shadow: 0 2px 8px rgba(25, 118, 242, 0.10);
 }
 
 .add-to-cart {
-  background-color: #ff9800;
+  background: linear-gradient(90deg, #ff9800 0%, #ffc107 100%);
   color: #fff;
 }
 
 .place-order {
-  background-color: #4caf50;
+  background: linear-gradient(90deg, #4caf50 0%, #00c853 100%);
   color: #fff;
 }
 
 .add-to-cart:hover {
-  background-color: #fb8c00;
+  background: linear-gradient(90deg, #fb8c00 0%, #ffd54f 100%);
+  box-shadow: 0 4px 16px rgba(255, 152, 0, 0.18);
+  transform: scale(1.04);
 }
 
 .place-order:hover {
-  background-color: #43a047;
+  background: linear-gradient(90deg, #43a047 0%, #69f0ae 100%);
+  box-shadow: 0 4px 16px rgba(76, 175, 80, 0.18);
+  transform: scale(1.04);
+}
+
+input[type=\"number\"] {
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #e3f0ff;
+  font-size: 1rem;
+  margin-left: 8px;
+  width: 80px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+input[type=\"number\"]:focus {
+  border-color: #1976f2;
+  box-shadow: 0 0 0 2px #1976f266;
 }
 
 .loading {
   text-align: center;
-  font-size: 18px;
+  font-size: 1.2rem;
   padding: 40px;
+  color: #1976f2;
+}
+
+/* Responsive */
+@media (max-width: 800px) {
+  .product-detail-container {
+    flex-direction: column;
+    padding: 16px;
+  }
+  .image-section, .info-section {
+    min-width: 100%;
+    padding: 10px;
+  }
 }

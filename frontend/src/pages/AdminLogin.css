@@ -1,50 +1,88 @@
+/* AdminLogin.css */
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #eaeded;
+  margin: 0;
+  padding: 0;
+}
+
+/* Container with animation */
 .login-container {
-  max-width: 400px;
-  margin: 60px auto;
-  padding: 30px;
+  width: 350px;
+  margin: 80px auto;
+  padding: 20px 26px;
   background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.login-container:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 
 .login-heading {
-  text-align: center;
-  margin-bottom: 20px;
-  color: #333;
   font-size: 24px;
+  font-weight: 500;
+  margin-bottom: 20px;
+  color: #111;
+  text-align: center;
 }
 
 .login-form {
   display: flex;
   flex-direction: column;
-  gap: 15px;
 }
 
+/* Inputs with smooth focus glow */
 .login-input {
-  padding: 12px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 15px;
-  transition: border-color 0.2s ease;
+  height: 35px;
+  padding: 5px 10px;
+  margin-bottom: 15px;
+  font-size: 14px;
+  border: 1px solid #a6a6a6;
+  border-radius: 4px;
+  box-sizing: border-box;
+  transition: all 0.25s ease;
 }
 
 .login-input:focus {
-  border-color: #007bff;
   outline: none;
+  border-color: #e77600;
+  box-shadow: 0 0 8px rgba(231, 118, 0, 0.5);
+  transform: scale(1.02);
 }
 
+/* Button with hover & click animation */
 .login-button {
-  padding: 12px;
-  background-color: #007bff;
-  color: #fff;
-  font-weight: bold;
-  border: none;
-  border-radius: 6px;
+  background-color: #f0c14b;
+  border: 1px solid #a88734;
+  border-radius: 4px;
+  padding: 10px;
+  font-size: 15px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  font-weight: bold;
+  transition: background-color 0.25s ease, transform 0.15s ease;
 }
 
 .login-button:hover {
-  background-color: #0056b3;
+  background-color: #e2b33c;
+  transform: scale(1.03);
+}
+
+.login-button:active {
+  background-color: #d1a232;
+  transform: scale(0.97);
+}
+
+/* Mobile responsive */
+@media (max-width: 400px) {
+  .login-container {
+    width: 90%;
+    margin: 40px auto;
+    padding: 15px;
+  }
 }

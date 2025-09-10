@@ -1,3 +1,23 @@
+// GET /api/customer/cart - get all cart items for a user with product details
+router.get('/cart', async (req, res) => {
+  const { email } = req.query;
+  if (!email) return res.status(400).json({ error: 'Email required' });
+  try {
+    const cartItems = await Cart.find({ email }).populate('productId');
+    // Format cart items to include product details
+    const formatted = cartItems.map(item => ({
+      _id: item._id,
+      productId: item.productId._id,
+      productName: item.productId.name,
+      price: item.productId.pricePerUnit,
+      image: item.productId.image,
+      quantity: item.quantity
+    }));
+    res.json(formatted);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch cart' });
+  }
+});
 const express = require('express');
 const router = express.Router();
 const Product = require('../models/Product');
@@ -8,7 +28,7 @@ const Order = require('../models/Order');
 // GET all products with search, filter, sort, and pagination
 router.get('/products', async (req, res) => {
   try {
-    const { search, category, sort, page = 1, limit = 8 } = req.query;
+    const { search, category, sort, page = 1, limit = 8, priceMin, priceMax } = req.query;
 
     const query = {};
 
@@ -18,6 +38,12 @@ router.get('/products', async (req, res) => {
 
     if (category) {
       query.category = category;
+    }
+
+    if (priceMin || priceMax) {
+      query.pricePerUnit = {};
+      if (priceMin) query.pricePerUnit.$gte = Number(priceMin);
+      if (priceMax) query.pricePerUnit.$lte = Number(priceMax);
     }
 
     const products = await Product.find(query)

@@ -1,65 +1,103 @@
-/* Full-page background with overlay */
+/* Home.css */
 .landing-page {
-  height: 100vh;
-  background: url('https://images.unsplash.com/photo-1589561084283-930aa7b1c3a8?auto=format&fit=crop&w=1500&q=80') no-repeat center center fixed;
-  background-size: cover;
   position: relative;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  height: 100vh;
+  width: 100%;
+  background: url('https://images.unsplash.com/photo-1515165562835-cd4ae2ecb4c1?auto=format&fit=crop&w=1950&q=80') no-repeat center center/cover;
+  font-family: 'Amazon Ember', Arial, sans-serif;
 }
 
+/* Overlay to darken background for readability */
 .overlay {
-  background: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  top: 0;
+  left: 0;
   height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.55);
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
 }
 
+/* Main content box */
 .content-box {
-  background: #fff;
-  padding: 40px;
-  max-width: 600px;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 2.5rem 3rem;
   border-radius: 12px;
+  max-width: 650px;
   text-align: center;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  animation: fadeIn 1.2s ease-in-out;
 }
 
 .content-box h1 {
-  margin-bottom: 20px;
-  font-size: 32px;
-  color: #333;
+  font-size: 2.5rem;
+  color: #111;
+  margin-bottom: 1rem;
+  font-weight: 700;
 }
 
 .content-box p {
-  color: #555;
-  font-size: 16px;
-  margin-bottom: 30px;
+  font-size: 1.1rem;
+  color: #333;
+  line-height: 1.5;
+  margin-bottom: 2rem;
 }
 
+/* Button group styling */
 .button-group {
   display: flex;
-  flex-direction: column;
-  gap: 15px;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
 }
 
 .btn {
-  padding: 12px;
-  font-size: 16px;
-  text-decoration: none;
-  color: white;
-  background: #007bff;
+  padding: 0.8rem 1.5rem;
+  background-color: #ffd814; /* Amazon yellow */
+  border: 1px solid #fcd200;
+  color: #111;
+  font-weight: bold;
   border-radius: 8px;
-  transition: background 0.3s ease;
+  text-decoration: none;
+  transition: all 0.3s ease;
 }
 
 .btn:hover {
-  background: #0056b3;
+  background-color: #f7ca00;
+  border-color: #f2c200;
+  transform: translateY(-2px);
 }
 
 .btn.secondary {
-  background: #28a745;
+  background-color: #232f3e; /* Amazon dark navy */
+  border: none;
+  color: #fff;
 }
 
 .btn.secondary:hover {
-  background: #218838;
+  background-color: #37475a;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .content-box {
+    padding: 2rem;
+    max-width: 90%;
+  }
+
+  .content-box h1 {
+    font-size: 2rem;
+  }
+
+  .content-box p {
+    font-size: 1rem;
+  }
+}
+
+/* Smooth fade-in animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
 }
